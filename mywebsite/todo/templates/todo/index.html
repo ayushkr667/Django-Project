@@ -1,0 +1,105 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ToDo App</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Oswald"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap CDN -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+      crossorigin="anonymous"
+    />
+
+    <!-- style css file -->
+    <link rel="stylesheet" href="{% static 'todo/css/style.css' %}" />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"
+    ></script>
+  </head>
+  <body>
+    <div class="container-fluid" id="wrapper">
+      <div class="row">
+        <div class="col-lg-4 col-lg-offset-4" id="content">
+          <h2>Your Todo List <i class="fas fa-pencil-alt"></i></h2>
+
+          <form action="{% url 'add' %}" method="POST" role="form">
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="input-group">
+                {{ form.text }}
+                <span class="input-group-btn">
+                  <button type="submit" class="btn btn-success" id="add-btn">
+                    Add <i class="fas fa-check-circle"></i>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </form>
+
+          <div class="row t10">
+            <div class="col-lg-12">
+              <div class="btn-toolbar">
+                <a href="{% url 'delete' %}">
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-block complete"
+                  >
+                    <i class="fas fa-trash-alt"></i> DELETE COMPLETED
+                  </button>
+                </a>
+
+                <a href="{% url 'reset' %}">
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-block reset-todo"
+                  >
+                    <i class="fas fa-trash-alt"></i> RESET TODO
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <ul class="list-group t20">
+            {% for todo in mytodo %} {% if todo.complete %}
+            <a id="completed-todo-item" href="{% url 'uncomplete' todo.id %}">
+              <li class="list-group-item todo-completed">
+                {{ todo.todotext }}
+              </li></a
+            >
+            {% else %}
+            <a href="{% url 'complete' todo.id %}"
+              ><li class="list-group-item">{{ todo.todotext }}</li></a
+            >
+            {% endif %} {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script
+      src="https://code.jquery.com/jquery-1.12.4.min.js"
+      integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+      integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
